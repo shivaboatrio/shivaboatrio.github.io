@@ -65,11 +65,13 @@ h2.display{font-size:clamp(2rem,6vw,3.4rem)}
 .lede{color:var(--muted);font-size:1.12rem;max-width:56ch;margin:0}
 
 /* botões */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.8rem 1.35rem;border-radius:999px;font-weight:600;font-size:1rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background-color .15s ease}
+.btn{font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.8rem 1.35rem;border-radius:999px;font-weight:600;font-size:1rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background-color .15s ease}
 .btn:hover{transform:translateY(-1px)}
 .btn svg{width:22px;height:22px;flex:none}
 .btn-wa{background:var(--wa);color:var(--wa-ink)}
 .btn-wa:hover{background:#178a45}
+.btn-book{background:#D93A2B;color:#fff}
+.btn-book:hover{background:#b92f22}
 .btn-ghost{border-color:currentColor;background:transparent}
 
 /* topo */
@@ -147,6 +149,38 @@ section{padding-block:4rem}
 .bring h3{margin:0;font-family:var(--font-body);font-weight:700;text-transform:uppercase;letter-spacing:.25em;font-size:.75rem;color:var(--sun)}
 .bring ul{margin:0;padding-left:1.1rem;display:grid;gap:.3rem;color:#dbe5ef}
 
+/* reserva */
+.book{background:var(--surface);border-block:1px solid var(--line)}
+.book-grid{display:grid;gap:2.5rem}
+@media (min-width:900px){.book-grid{grid-template-columns:.85fr 1.15fr;align-items:start}}
+.book-notes{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:.7rem;color:var(--muted)}
+.book-notes li{display:flex;gap:.6rem;align-items:flex-start}
+.book-notes svg{width:20px;height:20px;flex:none;margin-top:.15rem;color:var(--sea)}
+.bform{display:grid;gap:1.1rem;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:1.4rem;min-width:0}
+@media (min-width:600px){.bform{padding:1.8rem}}
+.bform fieldset{border:0;margin:0;padding:0;min-width:0}
+.bform legend,.bform label>span.l{display:block;font-weight:600;font-size:.88rem;margin-bottom:.4rem}
+.brow{display:grid;gap:1rem}
+@media (min-width:600px){.brow{grid-template-columns:1fr 1fr}}
+.bform input,.bform select,.bform textarea{width:100%;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:.7rem .8rem;min-height:48px}
+.bform textarea{min-height:84px;resize:vertical}
+.bform input:focus,.bform select:focus,.bform textarea:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 25%,transparent)}
+.rpick{display:grid;gap:.6rem}
+@media (min-width:600px){.rpick{grid-template-columns:1fr 1fr}}
+.rpick label{position:relative;display:block;cursor:pointer}
+.rpick input{position:absolute;opacity:0;pointer-events:none}
+.rpick .card{display:block;border:1.5px solid var(--line);border-radius:10px;padding:.8rem .9rem;background:var(--surface);transition:border-color .15s ease}
+.rpick .card b{display:block;font-family:var(--font-display);font-weight:400;font-size:1.2rem;line-height:1.15}
+.rpick .card small{color:var(--muted)}
+.rpick input:checked+.card{border-color:var(--canopy);box-shadow:0 0 0 2px var(--canopy) inset}
+.rpick input:focus-visible+.card{outline:3px solid var(--canopy);outline-offset:2px}
+.bform .hint{font-size:.82rem;color:var(--muted);margin:.35rem 0 0}
+.bform .btn{width:100%}
+.bmsg{border-radius:10px;padding:.9rem 1rem;font-size:.95rem}
+.bmsg.err{background:color-mix(in srgb,var(--canopy) 12%,transparent);border:1px solid var(--canopy)}
+.bmsg.ok{background:color-mix(in srgb,var(--wa) 12%,transparent);border:1px solid var(--wa)}
+.bmsg .btn{margin-top:.8rem}
+
 /* galeria */
 .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;grid-auto-flow:dense}
 @media (min-width:760px){.gallery{grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}}
@@ -185,6 +219,7 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 32 32"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3.2 29l6.5-1.7c1.9 1 4.1 1.6 6.3 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.5c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.7-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.5 16 26.5zm6-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g></symbol>
   <symbol id="i-check" viewBox="0 0 20 20"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 10.5l4 4 8-9"/></symbol>
 </svg>
 
@@ -200,8 +235,8 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
         <button type="button" id="lang-pt" data-set-lang="pt" aria-pressed="true">PT</button>
         <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
       </div>
-      <a class="btn btn-wa" data-wa="geral" href="#" target="_blank" rel="noopener">
-        <svg aria-hidden="true"><use href="#i-wa"/></svg>
+      <a class="btn btn-book" href="#reservar">
+        <svg aria-hidden="true"><use href="#i-cal"/></svg>
         <span class="btn-label"><span lang="pt">Reservar</span><span lang="en">Book now</span></span>
       </a>
     </div>
@@ -220,9 +255,9 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
         <span lang="en">Four hours on Guanabara Bay, with Sugarloaf Mountain on one side and Christ the Redeemer on the other. The boat is just for your group, up to 6 people, departing from Marina da Glória.</span>
       </p>
       <div class="hero-ctas">
-        <a class="btn btn-wa" data-wa="geral" href="#" target="_blank" rel="noopener">
-          <svg aria-hidden="true"><use href="#i-wa"/></svg>
-          <span lang="pt">Reservar pelo WhatsApp</span><span lang="en">Book on WhatsApp</span>
+        <a class="btn btn-book" href="#reservar">
+          <svg aria-hidden="true"><use href="#i-cal"/></svg>
+          <span lang="pt">Reserve seu passeio</span><span lang="en">Book your tour</span>
         </a>
         <a class="btn btn-ghost" href="#roteiros"><span lang="pt">Ver roteiros e valores</span><span lang="en">See tours &amp; prices</span></a>
       </div>
@@ -278,8 +313,8 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
               <small><span lang="pt">Lancha inteira</span><span lang="en">Whole boat</span></small>
               <b>R$ 2.000</b>
             </div>
-            <a class="btn btn-wa" data-wa="r1" href="#" target="_blank" rel="noopener">
-              <svg aria-hidden="true"><use href="#i-wa"/></svg>
+            <a class="btn btn-book" data-pick="r1" href="#reservar">
+              <svg aria-hidden="true"><use href="#i-cal"/></svg>
               <span lang="pt">Reservar este</span><span lang="en">Book this tour</span>
             </a>
           </div>
@@ -310,8 +345,8 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
               <small><span lang="pt">Lancha inteira</span><span lang="en">Whole boat</span></small>
               <b>R$ 2.800</b>
             </div>
-            <a class="btn btn-wa" data-wa="r2" href="#" target="_blank" rel="noopener">
-              <svg aria-hidden="true"><use href="#i-wa"/></svg>
+            <a class="btn btn-book" data-pick="r2" href="#reservar">
+              <svg aria-hidden="true"><use href="#i-cal"/></svg>
               <span lang="pt">Reservar este</span><span lang="en">Book this tour</span>
             </a>
           </div>
@@ -321,15 +356,71 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
   </div>
 </section>
 
+<section class="book" id="reservar">
+  <div class="wrap book-grid">
+    <div class="section-head" style="margin:0">
+      <p class="eyebrow"><span lang="pt">Reserva online</span><span lang="en">Book online</span></p>
+      <h2 class="display"><span lang="pt">Agende o seu passeio</span><span lang="en">Book your tour</span></h2>
+      <p class="lede"><span lang="pt">Escolha o roteiro, o dia e o horário. Depois é só confirmar com a gente no WhatsApp.</span><span lang="en">Pick your tour, date and time. Then confirm with us on WhatsApp.</span></p>
+      <ul class="book-notes">
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span lang="pt">Embarque na Marina da Glória</span><span lang="en">Boarding at Marina da Glória</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span lang="pt">Lancha inteira para o seu grupo, até 6 pessoas</span><span lang="en">The whole boat for your group, up to 6 guests</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span lang="pt">A reserva é confirmada pelo WhatsApp, onde combinamos o pagamento</span><span lang="en">Your booking is confirmed on WhatsApp, where we arrange payment</span></li>
+      </ul>
+    </div>
+
+    <form class="bform" id="bform" novalidate>
+      <fieldset>
+        <legend><span lang="pt">Roteiro</span><span lang="en">Tour</span></legend>
+        <div class="rpick">
+          <label><input type="radio" name="roteiro" id="rt-r1" value="r1" checked><span class="card"><b><span lang="pt">Roteiro 1</span><span lang="en">Tour 1</span></b><small>Praia Vermelha, Urca &amp; Rio Branco · R$ 2.000</small></span></label>
+          <label><input type="radio" name="roteiro" id="rt-r2" value="r2"><span class="card"><b><span lang="pt">Ilhas Cagarras</span><span lang="en">Cagarras Islands</span></b><small>4h · R$ 2.800</small></span></label>
+        </div>
+      </fieldset>
+
+      <div class="brow">
+        <label><span class="l"><span lang="pt">Dia</span><span lang="en">Date</span></span><input type="date" id="b-data" name="data" required></label>
+        <label><span class="l"><span lang="pt">Horário de saída</span><span lang="en">Departure time</span></span><select id="b-hora" name="hora" required></select></label>
+      </div>
+      <p class="hint" id="b-hora-hint" hidden></p>
+
+      <div class="brow">
+        <label><span class="l"><span lang="pt">Pessoas</span><span lang="en">Guests</span></span><select id="b-pessoas" name="pessoas" required><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option></select></label>
+        <label><span class="l"><span lang="pt">Nome</span><span lang="en">Name</span></span><input type="text" id="b-nome" name="nome" autocomplete="name" required></label>
+      </div>
+
+      <div class="brow">
+        <label><span class="l">E-mail</span><input type="email" id="b-email" name="email" autocomplete="email" required></label>
+        <label><span class="l">WhatsApp</span><input type="tel" id="b-tel" name="whatsapp" autocomplete="tel" placeholder="+55 21 99999-9999" required></label>
+      </div>
+
+      <label><span class="l"><span lang="pt">Observações (opcional)</span><span lang="en">Notes (optional)</span></span><textarea id="b-obs" name="obs"></textarea></label>
+
+      <div class="bmsg err" id="b-err" role="alert" hidden></div>
+
+      <button class="btn btn-book" type="submit" id="b-send">
+        <svg aria-hidden="true"><use href="#i-wa"/></svg>
+        <span lang="pt">Reservar e confirmar no WhatsApp</span><span lang="en">Book and confirm on WhatsApp</span>
+      </button>
+
+      <div class="bmsg ok" id="b-ok" role="status" hidden>
+        <strong><span lang="pt">Reserva recebida!</span><span lang="en">Booking received!</span></strong>
+        <span lang="pt">Estamos abrindo o seu WhatsApp com a mensagem pronta. É só enviar. Se não abrir, toque no botão.</span><span lang="en">We're opening WhatsApp with your message ready. Just hit send. If it doesn't open, tap the button.</span>
+        <a class="btn btn-wa" id="b-wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg><span lang="pt">Abrir WhatsApp</span><span lang="en">Open WhatsApp</span></a>
+      </div>
+    </form>
+  </div>
+</section>
+
 <section class="how" id="como-funciona">
   <div class="wrap how-grid">
     <div class="section-head" style="margin:0">
       <p class="eyebrow"><span lang="pt">Como reservar</span><span lang="en">How to book</span></p>
-      <h2 class="display"><span lang="pt">Três mensagens e você está no mar</span><span lang="en">Three messages and you're on the water</span></h2>
+      <h2 class="display"><span lang="pt">Três passos e você está no mar</span><span lang="en">Three steps and you're on the water</span></h2>
       <ol class="steps" style="margin-top:1.5rem">
-        <li><div><h3><span lang="pt">Escolha o roteiro e a data</span><span lang="en">Pick a tour and a date</span></h3><p><span lang="pt">Roteiro 1 (Praia Vermelha e Urca) ou Roteiro 2 (Cagarras).</span><span lang="en">Tour 1 (Praia Vermelha &amp; Urca) or Tour 2 (Cagarras).</span></p></div></li>
-        <li><div><h3><span lang="pt">Chame no WhatsApp</span><span lang="en">Message us on WhatsApp</span></h3><p><span lang="pt">Diga quantas pessoas vão e o dia que prefere.</span><span lang="en">Tell us how many guests and your preferred day.</span></p></div></li>
-        <li><div><h3><span lang="pt">Confirmamos o horário</span><span lang="en">We confirm the time</span></h3><p><span lang="pt">O embarque é na Marina da Glória. Você recebe o horário de saída.</span><span lang="en">Boarding is at Marina da Glória. We send you the departure time.</span></p></div></li>
+        <li><div><h3><span lang="pt">Agende pelo site</span><span lang="en">Book on the website</span></h3><p><span lang="pt">Escolha o roteiro, o dia e o horário no formulário.</span><span lang="en">Choose the tour, date and time in the form.</span></p></div></li>
+        <li><div><h3><span lang="pt">Confirme no WhatsApp</span><span lang="en">Confirm on WhatsApp</span></h3><p><span lang="pt">A mensagem já vai pronta. Combinamos o pagamento por lá.</span><span lang="en">The message is ready to send. We arrange payment there.</span></p></div></li>
+        <li><div><h3><span lang="pt">Embarque</span><span lang="en">Board the boat</span></h3><p><span lang="pt">No dia, é só chegar na Marina da Glória no horário marcado.</span><span lang="en">On the day, meet us at Marina da Glória at your booked time.</span></p></div></li>
       </ol>
     </div>
     <div class="bring">
@@ -408,6 +499,25 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
    ============================================================ */
 var WHATSAPP = "5521971573725";
 
+/* ============================================================
+   AGENDAMENTO
+   AGENDA_URL: link do "App da Web" do Google Apps Script
+   (termina em /exec). Enquanto estiver vazio, o formulário
+   só abre o WhatsApp com a reserva preenchida.
+   HORARIOS: horários de saída por dia da semana
+   (0 = domingo … 6 = sábado). Iguais aos do Codigo.gs.
+   ============================================================ */
+var AGENDA_URL = "https://script.google.com/macros/s/AKfycbyn2uadnJ0vxuAggtutK5qHvee5elQL2q4h_j_bjKz9tlltNJdWFREGWMovwPopgtnLrw/exec";
+var HORARIOS = {
+  0: ["09:00", "14:00"], 1: ["09:00", "14:00"], 2: ["09:00", "14:00"], 3: ["09:00", "14:00"],
+  4: ["09:00", "14:00"], 5: ["09:00", "14:00"], 6: ["14:00"]
+};
+function horariosDo(iso){ if (!iso) return HORARIOS[1]; var p = iso.split("-"); return HORARIOS[new Date(Date.UTC(+p[0], p[1] - 1, +p[2])).getUTCDay()] || []; }
+var ROTEIROS = {
+  r1: { pt: "Roteiro 1 (Praia Vermelha, Urca e Rio Branco)", en: "Tour 1 (Praia Vermelha, Urca & Rio Branco)", preco: "R$ 2.000" },
+  r2: { pt: "Roteiro Cagarras (Ilhas Cagarras)", en: "Cagarras Islands tour", preco: "R$ 2.800" }
+};
+
 var MSGS = {
   pt: {
     geral: "Olá! Vi o site da Shiva Boat Rio e quero saber sobre os passeios.",
@@ -447,7 +557,90 @@ var MSGS = {
   document.getElementById("wa-display").textContent =
     "+" + n.slice(0,2) + " " + n.slice(2,4) + " " + n.slice(4, n.length-4) + "-" + n.slice(-4);
 
+  /* ---------- agendamento ---------- */
+  var form = document.getElementById("bform");
+  var fData = document.getElementById("b-data"), fHora = document.getElementById("b-hora");
+  var hint = document.getElementById("b-hora-hint"), err = document.getElementById("b-err");
+  var ok = document.getElementById("b-ok"), send = document.getElementById("b-send"), waBtn = document.getElementById("b-wa");
+  function lang(){ return app.getAttribute("data-lang") === "en" ? "en" : "pt"; }
+  function t(pt, en){ return lang() === "en" ? en : pt; }
+  function pad(x){ return (x < 10 ? "0" : "") + x; }
+  function hojeRio(){
+    var d = new Date(Date.now() - 3 * 3600 * 1000);
+    return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate());
+  }
+  fData.min = hojeRio();
+  function fillHoras(livres){
+    var cur = fHora.value;
+    fHora.innerHTML = "";
+    horariosDo(fData.value).forEach(function(h){
+      var o = document.createElement("option");
+      o.value = h; var hi = parseInt(h, 10); o.textContent = hi + "h " + t("às", "to") + " " + (hi + 4) + "h";
+      if (livres && livres.indexOf(h) < 0){ o.disabled = true; o.textContent += " · " + t("ocupado", "booked"); }
+      fHora.appendChild(o);
+    });
+    var first = Array.prototype.find.call(fHora.options, function(o){ return !o.disabled; });
+    if (cur && fHora.querySelector('option[value="' + cur + '"]:not([disabled])')) fHora.value = cur;
+    else if (first) fHora.value = first.value;
+    if (livres && !first){ hint.hidden = false; hint.textContent = t("Esse dia está lotado. Escolha outra data.", "This day is fully booked. Please pick another date."); }
+    else hint.hidden = true;
+  }
+  fillHoras(null);
+  fData.addEventListener("change", function(){
+    fillHoras(null);
+    if (!AGENDA_URL || !fData.value) return;
+    hint.hidden = false; hint.textContent = t("Verificando horários livres…", "Checking availability…");
+    fetch(AGENDA_URL + "?data=" + encodeURIComponent(fData.value))
+      .then(function(r){ return r.json(); })
+      .then(function(j){ fillHoras(j && j.livres ? j.livres : null); })
+      .catch(function(){ hint.hidden = true; });
+  });
+  function dataBR(iso){ var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+  function waMsg(d){
+    var r = ROTEIROS[d.roteiro];
+    if (lang() === "en") return "Hi! I just booked on the Shiva Boat Rio website:\n" + r.en + " (" + r.preco + ")\nDate: " + dataBR(d.data) + " at " + d.hora + "\nGuests: " + d.pessoas + "\nName: " + d.nome + (d.obs ? "\nNotes: " + d.obs : "") + "\nCould you confirm and send payment details?";
+    return "Olá! Acabei de fazer uma reserva pelo site da Shiva Boat Rio:\n" + r.pt + " (" + r.preco + ")\nData: " + dataBR(d.data) + " às " + d.hora + "\nPessoas: " + d.pessoas + "\nNome: " + d.nome + (d.obs ? "\nObservações: " + d.obs : "") + "\nPode confirmar e me passar como fazer o pagamento?";
+  }
+  function showErr(m){ err.textContent = m; err.hidden = false; }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    err.hidden = true;
+    var d = {
+      roteiro: form.querySelector('input[name="roteiro"]:checked').value,
+      data: fData.value, hora: fHora.value,
+      pessoas: document.getElementById("b-pessoas").value,
+      nome: document.getElementById("b-nome").value.trim(),
+      email: document.getElementById("b-email").value.trim(),
+      whatsapp: document.getElementById("b-tel").value.trim(),
+      obs: document.getElementById("b-obs").value.trim(),
+      idioma: lang()
+    };
+    if (!d.data || !d.hora || !d.nome || !d.whatsapp || !/^\S+@\S+\.\S+$/.test(d.email)){
+      showErr(t("Preencha dia, horário, nome, e-mail e WhatsApp.", "Please fill in date, time, name, email and WhatsApp.")); return;
+    }
+    if (d.data < hojeRio()){ showErr(t("Escolha uma data a partir de hoje.", "Please choose a date from today on.")); return; }
+    var wa = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(waMsg(d));
+    function done(){ waBtn.href = wa; ok.hidden = false; send.hidden = true; ok.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(function(){ window.location.href = wa; }, 600); }
+    if (!AGENDA_URL){ done(); return; }
+    send.disabled = true;
+    fetch(AGENDA_URL, { method: "POST", body: JSON.stringify(d) })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        send.disabled = false;
+        if (j && j.ok) done();
+        else if (j && j.motivo === "ocupado"){ showErr(t("Esse horário acabou de ser reservado. Escolha outro.", "That time was just booked. Please choose another.")); fData.dispatchEvent(new Event("change")); }
+        else showErr(t("Não conseguimos registrar agora. Toque de novo ou chame no WhatsApp.", "We couldn't save your booking. Try again or message us on WhatsApp."));
+      })
+      .catch(function(){ send.disabled = false; done(); });
+  });
+
   var dlg = document.getElementById("lightbox"), big = document.getElementById("lightbox-img");
+  document.querySelectorAll("[data-pick]").forEach(function(a){
+    a.addEventListener("click", function(){
+      var rb = document.getElementById("rt-" + a.getAttribute("data-pick"));
+      if (rb) rb.checked = true;
+    });
+  });
   document.querySelectorAll("#gallery button").forEach(function(btn){
     btn.addEventListener("click", function(){
       var img = btn.querySelector("img");
