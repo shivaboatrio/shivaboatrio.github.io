@@ -509,10 +509,12 @@ var WHATSAPP = "5521971573725";
    ============================================================ */
 var AGENDA_URL = "https://script.google.com/macros/s/AKfycbyn2uadnJ0vxuAggtutK5qHvee5elQL2q4h_j_bjKz9tlltNJdWFREGWMovwPopgtnLrw/exec";
 var HORARIOS = {
-  0: ["09:00", "14:00"], 1: ["09:00", "14:00"], 2: ["09:00", "14:00"], 3: ["09:00", "14:00"],
-  4: ["09:00", "14:00"], 5: ["09:00", "14:00"], 6: ["14:00"]
+  0: ["09:00", "14:00"], 1: ["09:00", "14:00"], 2: [], 3: ["09:00", "14:00"],
+  4: ["09:00", "14:00"], 5: ["09:00", "14:00"], 6: ["09:00", "14:00"]
 };
-function horariosDo(iso){ if (!iso) return HORARIOS[1]; var p = iso.split("-"); return HORARIOS[new Date(Date.UTC(+p[0], p[1] - 1, +p[2])).getUTCDay()] || []; }
+// Dias fechados todo ano (MM-DD). Iguais aos do Codigo.gs.
+var FECHADOS = ["12-25", "12-31", "01-01"];
+function horariosDo(iso){ if (!iso) return HORARIOS[1]; if (FECHADOS.indexOf(iso.slice(5)) >= 0) return []; var p = iso.split("-"); return HORARIOS[new Date(Date.UTC(+p[0], p[1] - 1, +p[2])).getUTCDay()] || []; }
 var ROTEIROS = {
   r1: { pt: "Roteiro 1 (Praia Vermelha, Urca e Rio Branco)", en: "Tour 1 (Praia Vermelha, Urca & Rio Branco)", preco: "R$ 2.000" },
   r2: { pt: "Roteiro Cagarras (Ilhas Cagarras)", en: "Cagarras Islands tour", preco: "R$ 2.800" }
@@ -582,7 +584,8 @@ var MSGS = {
     var first = Array.prototype.find.call(fHora.options, function(o){ return !o.disabled; });
     if (cur && fHora.querySelector('option[value="' + cur + '"]:not([disabled])')) fHora.value = cur;
     else if (first) fHora.value = first.value;
-    if (livres && !first){ hint.hidden = false; hint.textContent = t("Esse dia está lotado. Escolha outra data.", "This day is fully booked. Please pick another date."); }
+    if (fData.value && !horariosDo(fData.value).length){ hint.hidden = false; hint.textContent = t("Não temos saídas nesse dia. Escolha outra data.", "We don't sail on this day. Please pick another date."); }
+    else if (livres && !first){ hint.hidden = false; hint.textContent = t("Esse dia está lotado. Escolha outra data.", "This day is fully booked. Please pick another date."); }
     else hint.hidden = true;
   }
   fillHoras(null);
