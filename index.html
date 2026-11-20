@@ -174,6 +174,26 @@ section{padding-block:4rem}
 .rpick .card small{color:var(--muted)}
 .rpick input:checked+.card{border-color:var(--canopy);box-shadow:0 0 0 2px var(--canopy) inset}
 .rpick input:focus-visible+.card{outline:3px solid var(--canopy);outline-offset:2px}
+.dpick{position:relative}
+.dbtn{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;min-height:48px;padding:.7rem .8rem;font:inherit;font-size:1rem;color:var(--fg);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;cursor:pointer}
+.dbtn.vazio{color:var(--muted)}
+.dbtn svg{width:20px;height:20px;flex:none;color:var(--sea)}
+.dbtn:focus-visible,.dbtn[aria-expanded="true"]{border-color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 25%,transparent)}
+.cal{position:absolute;z-index:20;top:calc(100% + 6px);left:0;width:min(330px,calc(100vw - 32px));background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(11,37,64,.18);padding:.8rem}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.cal-head b{font-weight:600;text-transform:capitalize}
+.cal-head button{all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;font-size:1.3rem;line-height:1}
+.cal-head button:hover{background:var(--surface)}
+.cal-head button:disabled{opacity:.25;cursor:default}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-grid .wd{font-size:.72rem;font-weight:600;color:var(--muted);padding:.25rem 0}
+.cal-grid button{all:unset;cursor:pointer;height:38px;display:grid;place-items:center;border-radius:8px;font-size:.92rem}
+.cal-grid button:hover{background:var(--surface)}
+.cal-grid button:focus-visible{outline:2px solid var(--sea)}
+.cal-grid button.sel{background:var(--canopy);color:#fff}
+.cal-grid button:disabled{cursor:default;color:var(--muted);opacity:.45;background:none}
+.cal-grid button.fech{text-decoration:line-through;opacity:.55}
+.cal-leg{font-size:.76rem;color:var(--muted);margin:.6rem 0 0}
 .bform .hint{font-size:.82rem;color:var(--muted);margin:.35rem 0 0}
 .bform .btn{width:100%}
 .bmsg{border-radius:10px;padding:.9rem 1rem;font-size:.95rem}
@@ -379,7 +399,7 @@ footer .wrap{padding-block:2rem 6.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5
       </fieldset>
 
       <div class="brow">
-        <label><span class="l"><span lang="pt">Dia</span><span lang="en">Date</span></span><input type="date" id="b-data" name="data" required></label>
+        <div class="dpick"><span class="l" id="b-data-l" style="display:block;font-weight:600;font-size:.88rem;margin-bottom:.4rem"><span lang="pt">Dia</span><span lang="en">Date</span></span><input type="hidden" id="b-data" name="data"><button type="button" class="dbtn vazio" id="b-data-btn" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="b-data-l b-data-btn"><span id="b-data-txt"></span><svg aria-hidden="true"><use href="#i-cal"/></svg></button><div class="cal" id="b-cal" role="dialog" aria-label="Calendário" hidden></div></div>
         <label><span class="l"><span lang="pt">Horário de saída</span><span lang="en">Departure time</span></span><select id="b-hora" name="hora" required></select></label>
       </div>
       <p class="hint" id="b-hora-hint" hidden></p>
@@ -509,11 +529,12 @@ var WHATSAPP = "5521971573725";
    ============================================================ */
 var AGENDA_URL = "https://script.google.com/macros/s/AKfycbyn2uadnJ0vxuAggtutK5qHvee5elQL2q4h_j_bjKz9tlltNJdWFREGWMovwPopgtnLrw/exec";
 var HORARIOS = {
-  0: ["09:00", "14:00"], 1: ["09:00", "14:00"], 2: [], 3: ["09:00", "14:00"],
+  0: ["09:00", "14:00"], 1: ["09:00", "14:00"], 2: ["09:00", "14:00"], 3: ["09:00", "14:00"],
   4: ["09:00", "14:00"], 5: ["09:00", "14:00"], 6: ["09:00", "14:00"]
 };
-// Dias fechados todo ano (MM-DD). Iguais aos do Codigo.gs.
-var FECHADOS = ["12-25", "12-31", "01-01"];
+// Dias fechados e ocupados vêm do Google Agenda (evento de dia inteiro = dia fechado).
+// FECHADOS (MM-DD) só serve para dias sempre fechados, mesmo sem evento. Iguais aos do Codigo.gs.
+var FECHADOS = [];
 function horariosDo(iso){ if (!iso) return HORARIOS[1]; if (FECHADOS.indexOf(iso.slice(5)) >= 0) return []; var p = iso.split("-"); return HORARIOS[new Date(Date.UTC(+p[0], p[1] - 1, +p[2])).getUTCDay()] || []; }
 var ROTEIROS = {
   r1: { pt: "Roteiro 1 (Praia Vermelha, Urca e Rio Branco)", en: "Tour 1 (Praia Vermelha, Urca & Rio Branco)", preco: "R$ 2.000" },
@@ -571,7 +592,6 @@ var MSGS = {
     var d = new Date(Date.now() - 3 * 3600 * 1000);
     return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate());
   }
-  fData.min = hojeRio();
   function fillHoras(livres){
     var cur = fHora.value;
     fHora.innerHTML = "";
@@ -589,6 +609,65 @@ var MSGS = {
     else hint.hidden = true;
   }
   fillHoras(null);
+  /* calendário próprio: terças e feriados aparecem riscados */
+  var dBtn = document.getElementById("b-data-btn"), dTxt = document.getElementById("b-data-txt"), cal = document.getElementById("b-cal");
+  var MESES = { pt: ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"], en: ["January","February","March","April","May","June","July","August","September","October","November","December"] };
+  var SEM = { pt: ["D","S","T","Q","Q","S","S"], en: ["Su","Mo","Tu","We","Th","Fr","Sa"] };
+  var hoje = hojeRio(), calY = +hoje.slice(0,4), calM = +hoje.slice(5,7) - 1;
+  var MESCACHE = {};
+  function mesKey(){ return calY + "-" + pad(calM + 1); }
+  function carregaMes(){
+    var k = mesKey();
+    if (!AGENDA_URL || MESCACHE[k]) return;
+    MESCACHE[k] = "carregando";
+    fetch(AGENDA_URL + "?mes=" + k).then(function(r){ return r.json(); })
+      .then(function(j){ MESCACHE[k] = j && j.dias ? j.dias : null; if (!cal.hidden && mesKey() === k) renderCal(); })
+      .catch(function(){ MESCACHE[k] = null; });
+  }
+  function livresDia(iso){
+    var c = MESCACHE[iso.slice(0, 7)];
+    if (c && typeof c === "object" && c[iso]) return c[iso];
+    return horariosDo(iso);
+  }
+  function isoDe(y, m, d){ return y + "-" + pad(m + 1) + "-" + pad(d); }
+  function dTexto(){
+    if (!fData.value){ dTxt.textContent = t("Escolha a data", "Pick a date"); dBtn.classList.add("vazio"); return; }
+    var p = fData.value.split("-"), dt = new Date(Date.UTC(+p[0], p[1] - 1, +p[2]));
+    var sem = lang() === "en" ? ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"] : ["dom","seg","ter","qua","qui","sex","sáb"];
+    dTxt.textContent = sem[dt.getUTCDay()] + ", " + dataBR(fData.value); dBtn.classList.remove("vazio");
+  }
+  function renderCal(){
+    carregaMes();
+    var L = lang(), h = '<div class="cal-head"><button type="button" data-nav="-1" aria-label="' + t("Mês anterior","Previous month") + '"' + (calY * 12 + calM <= +hoje.slice(0,4) * 12 + (+hoje.slice(5,7) - 1) ? " disabled" : "") + '>‹</button><b>' + MESES[L][calM] + " " + calY + '</b><button type="button" data-nav="1" aria-label="' + t("Próximo mês","Next month") + '">›</button></div><div class="cal-grid">';
+    SEM[L].forEach(function(w){ h += '<span class="wd">' + w + "</span>"; });
+    var first = new Date(Date.UTC(calY, calM, 1)).getUTCDay(), n = new Date(Date.UTC(calY, calM + 1, 0)).getUTCDate();
+    for (var i = 0; i < first; i++) h += "<span></span>";
+    for (var d = 1; d <= n; d++){
+      var iso = isoDe(calY, calM, d), passado = iso < hoje, fech = !livresDia(iso).length;
+      h += '<button type="button" data-d="' + iso + '"' + (passado || fech ? " disabled" : "") + ' class="' + (fech && !passado ? "fech" : "") + (iso === fData.value ? " sel" : "") + '" aria-label="' + dataBR(iso) + (fech ? " · " + t("indisponível","unavailable") : "") + '">' + d + "</button>";
+    }
+    h += '</div><p class="cal-leg">' + (MESCACHE[mesKey()] === "carregando" ? t("Verificando dias livres…", "Checking available days…") : t("Dias riscados: fechados ou lotados.", "Crossed-out days: closed or fully booked.")) + "</p>";
+    cal.innerHTML = h;
+  }
+  function abrirCal(on){
+    cal.hidden = !on; dBtn.setAttribute("aria-expanded", on ? "true" : "false");
+    if (on){
+      if (fData.value){ calY = +fData.value.slice(0,4); calM = +fData.value.slice(5,7) - 1; }
+      renderCal(); var f = cal.querySelector(".sel") || cal.querySelector(".cal-grid button:not([disabled])"); if (f) f.focus();
+    }
+  }
+  dBtn.addEventListener("click", function(){ abrirCal(cal.hidden); });
+  cal.addEventListener("click", function(e){
+    e.stopPropagation();
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.hasAttribute("data-nav")){ calM += +b.getAttribute("data-nav"); if (calM < 0){ calM = 11; calY--; } if (calM > 11){ calM = 0; calY++; } renderCal(); return; }
+    fData.value = b.getAttribute("data-d"); dTexto(); abrirCal(false); dBtn.focus();
+    fData.dispatchEvent(new Event("change"));
+  });
+  document.addEventListener("click", function(e){ if (!cal.hidden && !e.target.closest(".dpick")) abrirCal(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !cal.hidden){ abrirCal(false); dBtn.focus(); } });
+  new MutationObserver(function(){ dTexto(); if (!cal.hidden) renderCal(); }).observe(app, { attributes: true, attributeFilter: ["data-lang"] });
+  dTexto();
   fData.addEventListener("change", function(){
     fillHoras(null);
     if (!AGENDA_URL || !fData.value) return;
